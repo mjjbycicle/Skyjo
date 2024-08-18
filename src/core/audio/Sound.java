@@ -31,7 +31,7 @@ public class Sound {
 
 	private final static Map<String, SoundSource> sources = new HashMap<>();
 
-	private static Clip getClip(String filename) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+	private static Clip getClip(String filename) {
 		SoundSource source;
 		if(sources.containsKey(filename)) source = sources.get(filename);
 		else {
@@ -44,8 +44,17 @@ public class Sound {
 					throw new IOException("Null input stream");
 				}
 			}
+			catch (Exception e){
+				throw new RuntimeException(e);
+			}
 		}
-		return source.createClip();
+
+		try {
+			return source.createClip();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private final Clip clip;
@@ -57,7 +66,7 @@ public class Sound {
 	 */
 	public Sound(String fileName) {
 		this(getClip(fileName));
-	}
+    }
 
 	private Sound(Clip clip) {
 		this.clip = clip;

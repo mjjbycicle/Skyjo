@@ -1,5 +1,9 @@
+import app.App;
+import core.engine.GameEngine;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        GameEngine.enableHardwareAcceleration();
+        new App().run();
     }
 }

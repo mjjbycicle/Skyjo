@@ -7,13 +7,14 @@ import core.input.Input;
 import java.awt.*;
 
 public class ButtonObject extends GameObject {
-	public ButtonObject(String text, Font font, Color background, Color border, Color textColor) {
+	private final boolean underline;
+	public ButtonObject(String text, Font font, Color background, Color border, Color textColor, boolean underline) {
 		super(
 				new RoundedRectRendererBehavior(20, border, background),
 				new TextRendererBehavior(text, new TextStyle(font, textColor, TextStyle.TextAlign.ALIGN_CENTER)),
 				new ButtonBehavior()
 		);
-
+		this.underline = underline;
 		findBehavior(TextRendererBehavior.class).resizeToFit(10);
 	}
 
@@ -23,7 +24,7 @@ public class ButtonObject extends GameObject {
 
 	@Override
     public GameObject update() {
-		this.findBehavior(TextRendererBehavior.class).setUnderlined(isHovered());
+		if (underline) this.findBehavior(TextRendererBehavior.class).setUnderlined(isHovered());
 
 		return super.update();
     }
