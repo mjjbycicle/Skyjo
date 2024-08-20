@@ -33,7 +33,7 @@ public class SetPlayersState extends AbstractGameState {
                     FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
                     WHITE,
                     0
-            ).resizeToFit(0));
+            ).resizeToFit(10));
         }
         playerSidebar.setPosition(new Vec2(0, 0));
 
@@ -83,7 +83,7 @@ public class SetPlayersState extends AbstractGameState {
                 );
             }
         }
-        else if (addPlayerButton.isHovered()) {
+        else if (addPlayerButton.isHovered() && players.size() < 8) {
             players.add("Player " + (players.size() + 1));
             nextState = new SetPlayersState(players);
         }

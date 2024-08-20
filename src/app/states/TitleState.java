@@ -4,6 +4,7 @@ import app.Game;
 import core.GameCanvas;
 import core.GameObject;
 import core.gameobjects.ButtonObject;
+import core.gameobjects.ImageObject;
 import core.input.MouseEvent;
 import core.math.Vec2;
 import core.states.AbstractGameState;
@@ -20,14 +21,17 @@ public class TitleState extends AbstractGameState {
     private final ButtonObject startButton = (ButtonObject) new ButtonObject(
             "Start Game",
             FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
-            BLACK,
+            new Color(0, 0, 0, 150),
             WHITE,
             WHITE,
             true
     ).setPosition(new Vec2(0, 360));
 
+    private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
+
     @Override
     public void draw(GameCanvas canvas) {
+        bg.updateAndDraw(canvas);
         startButton.updateAndDraw(canvas);
     }
 
