@@ -11,6 +11,7 @@ import core.states.AbstractGameState;
 import core.util.FontLoader;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import static java.awt.Color.*;
@@ -38,7 +39,10 @@ public class TitleState extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (startButton.isHovered()) {
-            nextState = new SetPlayersState();
+            ArrayList<String> players = new ArrayList<>();
+            players.add("Player 1");
+            players.add("Player 2");
+            nextState = new SetPlayersState(players);
         }
     }
 

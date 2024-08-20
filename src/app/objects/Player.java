@@ -24,6 +24,7 @@ public class Player extends GameObject {
     public Player(String name, int id) {
         this.name = name;
         this.id = id;
+        this.mat = new Matrix();
         x = id * 240 + 120;
         text = (TextObject) new TextObject(
                 name,
@@ -34,5 +35,10 @@ public class Player extends GameObject {
     }
 
     public void updateAndDraw(GameCanvas canvas) {
+
+    }
+
+    public void deal(Card[] cards) {
+        mat.deal(cards);
     }
 }

@@ -1,5 +1,7 @@
 package app.states;
 
+import app.objects.Deck;
+import app.objects.Player;
 import core.GameCanvas;
 import core.GameObject;
 import core.behaviors.TextStyle;
@@ -76,7 +78,11 @@ public class SetPlayersState extends AbstractGameState {
         if (continueButton.isHovered()) {
             if (players.size() >= 2) {
                 System.out.println("continue");
-                var theNextState = new TitleState();
+                List<Player> newPlayers = new ArrayList<>();
+                for (int i = 1; i <= players.size(); i++) {
+                    newPlayers.add(new Player(players.get(i - 1), i - 1));
+                }
+                var theNextState = new DealCardsState(newPlayers, new Deck(true));
                 nextState = GameStateGroup.groupStates(
                         new FadeOutScene(this), new FadeInScene(theNextState),
                         theNextState
