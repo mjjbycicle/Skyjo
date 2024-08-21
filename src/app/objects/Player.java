@@ -34,7 +34,11 @@ public class Player extends GameObject {
         ).setPosition(x, 400);
     }
 
-    public void updateAndDraw(GameCanvas canvas) {
+    public void updateAndDraw(GameCanvas canvas, boolean active) {
+
+    }
+
+    public void drawActive(GameCanvas canvas) {
 
     }
 

@@ -1,5 +1,7 @@
 package app.objects;
 
+import core.GameCanvas;
+
 public class Matrix {
     private Card[][] matrix;
     public boolean active;
@@ -27,5 +29,13 @@ public class Matrix {
                 c.onMouseClick();
             }
         }
+    }
+
+    public void updateAndDrawActive(GameCanvas canvas) {
+
+    }
+
+    public void updateAndDrawInactive(GameCanvas canvas, int index) {
+
     }
 }

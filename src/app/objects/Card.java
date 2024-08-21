@@ -19,12 +19,14 @@ public class Card extends ImageObject {
         );
     }
 
-    public void updateAndDraw(GameCanvas canvas, int height, int width, int x, int y) {
+    public void updateAndDrawActive(GameCanvas canvas, int x, int y) {
         this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
-        this.setSize(width, height);
+        this.setSize(200, 320);
         this.setPosition(x, y);
         this.updateAndDraw(canvas);
     }
+
+
 
     public void onMouseClick() {
         if (this.findBehavior(ButtonBehavior.class).isHovered()) {
