@@ -17,14 +17,14 @@ public class Deck extends GameObject {
         this();
         if (random) {
             for (int i = 0; i < 5; i++) {
-                cards.add(new Card(-2));
+                cards.add(new Card(-2, true));
             }
             for (int i = 0; i < 10; i++) {
-                cards.add(new Card(-1));
+                cards.add(new Card(-1, true));
             }
             for (int i = 0; i <= 12; i++) {
                 for (int j = 0; j < 10; j++) {
-                    cards.add(new Card(i));
+                    cards.add(new Card(i, true));
                 }
             }
             Collections.shuffle(cards);
@@ -40,13 +40,12 @@ public class Deck extends GameObject {
     }
 
     public void updateAndDraw(GameCanvas canvas, DECK_TYPE type) {
-        if (type == DECK_TYPE.DRAW) {
-            setPosition(Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
-        } else {
-            setPosition(Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
-        }
         if (cards.isEmpty()) return;
-        cards.get(0).updateAndDraw(canvas);
+        if (type == DECK_TYPE.DRAW) {
+            cards.get(0).updateAndDrawDeck(canvas, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
+        } else {
+            cards.get(0).updateAndDrawDeck(canvas, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
+        }
     }
 
     public void push(Card card) {

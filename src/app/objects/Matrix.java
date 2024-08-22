@@ -45,7 +45,7 @@ public class Matrix {
     public void updateAndDrawInactive(GameCanvas canvas, int index) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 50 + index * 200, 400);
+                matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 50 + index * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 100);
             }
         }
     }

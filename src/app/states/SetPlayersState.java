@@ -6,6 +6,7 @@ import core.GameCanvas;
 import core.GameObject;
 import core.behaviors.TextStyle;
 import core.gameobjects.ButtonObject;
+import core.gameobjects.ImageObject;
 import core.gameobjects.TextObject;
 import core.gameobjects.VerticalLayoutObject;
 import core.input.MouseEvent;
@@ -25,6 +26,9 @@ public class SetPlayersState extends AbstractGameState {
     private AbstractGameState nextState;
 
     private List<String> players;
+
+
+    private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
 
     public SetPlayersState(List<String> players) {
         this.players = players;
@@ -68,6 +72,7 @@ public class SetPlayersState extends AbstractGameState {
 
     @Override
     public void draw(GameCanvas canvas) {
+        bg.updateAndDraw(canvas);
         addPlayerButton.updateAndDraw(canvas);
         continueButton.updateAndDraw(canvas);
         playerSidebar.updateAndDraw(canvas);

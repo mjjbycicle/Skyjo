@@ -1,11 +1,32 @@
 package app.states;
 
+import app.Constants;
 import app.Game;
 import core.GameCanvas;
+import core.gameobjects.ButtonObject;
+import core.gameobjects.ImageObject;
+import core.input.MouseEvent;
+import core.math.Vec2;
 import core.states.AbstractGameState;
+import core.util.FontLoader;
+
+import java.awt.*;
+
+import static java.awt.Color.*;
 
 public class TurnState extends AbstractGameState {
     private Game game;
+
+    private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
+
+    private final ButtonObject continueButton = (ButtonObject) new ButtonObject(
+            "continue",
+            FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
+            new Color(0, 0, 0, 150),
+            WHITE,
+            WHITE,
+            false
+    ).setPosition(new Vec2(Constants.CONTINUE_BUTTON_X, Constants.CONTINUE_BUTTON_Y));
 
     public TurnState(Game g) {
         this.game = g;
@@ -13,11 +34,21 @@ public class TurnState extends AbstractGameState {
 
     @Override
     public void draw(GameCanvas canvas) {
+        bg.updateAndDraw(canvas);
         game.updateAndDraw(canvas);
+        continueButton.updateAndDraw(canvas);
     }
 
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void onMouseClick(MouseEvent me) {
+        game.onMouseClick();
+        if (continueButton.isHovered()) {
+            game.advanceActivePlayer();
+        }
     }
 }

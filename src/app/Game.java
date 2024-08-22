@@ -16,6 +16,7 @@ public class Game extends GameObject {
         this.players = players;
         this.drawDeck = drawDeck;
         this.discardDeck = new Deck(false);
+        players.get(activePlayerIndex).updateActive(true);
     }
 
     public void advanceActivePlayer() {
@@ -30,6 +31,8 @@ public class Game extends GameObject {
         for (Player player : players) {
             player.updateAndDraw(canvas);
         }
+        drawDeck.updateAndDraw(canvas, Constants.DECK_TYPE.DRAW);
+        discardDeck.updateAndDraw(canvas, Constants.DECK_TYPE.DISCARD);
     }
 
     public void onMouseClick() {

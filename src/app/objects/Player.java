@@ -3,6 +3,7 @@ package app.objects;
 import app.Constants;
 import core.GameCanvas;
 import core.GameObject;
+import core.behaviors.TextRendererBehavior;
 import core.behaviors.TextStyle;
 import core.gameobjects.TextObject;
 import core.util.FontLoader;
@@ -32,7 +33,7 @@ public class Player extends GameObject {
                 FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
                 Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
-        ).setPosition(x, 400);
+        ).setPosition(Constants.ZERO_X + 120 + id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 20);
     }
 
     public void updateAndDraw(GameCanvas canvas) {
@@ -45,10 +46,13 @@ public class Player extends GameObject {
     }
 
     private void drawActive(GameCanvas canvas) {
+        text.findBehavior(TextRendererBehavior.class).disable();
         mat.updateAndDrawActive(canvas);
     }
 
     private void drawInactive(GameCanvas canvas) {
+        text.findBehavior(TextRendererBehavior.class).enable();
+        text.updateAndDraw(canvas);
         mat.updateAndDrawInactive(canvas, id);
     }
 
