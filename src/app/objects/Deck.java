@@ -1,5 +1,6 @@
 package app.objects;
 
+import app.Constants;
 import app.Game;
 import core.GameCanvas;
 import core.GameObject;
@@ -7,6 +8,7 @@ import core.GameObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import app.Constants.*;
 
 public class Deck extends GameObject {
     private List<Card> cards;
@@ -37,8 +39,12 @@ public class Deck extends GameObject {
         return cards.remove(0);
     }
 
-    @Override
-    public void updateAndDraw(GameCanvas canvas) {
+    public void updateAndDraw(GameCanvas canvas, DECK_TYPE type) {
+        if (type == DECK_TYPE.DRAW) {
+            setPosition(Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
+        } else {
+            setPosition(Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
+        }
         if (cards.isEmpty()) return;
         cards.get(0).updateAndDraw(canvas);
     }

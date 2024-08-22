@@ -1,5 +1,6 @@
 package app.objects;
 
+import app.Constants;
 import core.GameCanvas;
 import core.behaviors.ButtonBehavior;
 import core.behaviors.ImageRendererBehavior;
@@ -19,14 +20,26 @@ public class Card extends ImageObject {
         );
     }
 
-    public void updateAndDrawActive(GameCanvas canvas, int x, int y) {
+    public void updateAndDrawActive(GameCanvas canvas, int i, int j, int startX, int startY) {
         this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
-        this.setSize(200, 320);
-        this.setPosition(x, y);
+        this.setSize(Constants.ACTIVE_CARD_WIDTH, Constants.ACTIVE_CARD_HEIGHT);
+        this.setPosition(startX + j * Constants.ACTIVE_CARD_WIDTH_WITH_PADDING, startY + i * Constants.ACTIVE_CARD_HEIGHT_WITH_PADDING);
         this.updateAndDraw(canvas);
     }
 
+    public void updateAndDrawInactive(GameCanvas canvas, int i, int j, int startX, int startY) {
+        this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
+        this.setSize(Constants.INACTIVE_CARD_WIDTH, Constants.INACTIVE_CARD_HEIGHT);
+        this.setPosition(startX + j * Constants.INACTIVE_CARD_WIDTH_WITH_PADDING, startY + i * Constants.INACTIVE_CARD_HEIGHT_WITH_PADDING);
+        this.updateAndDraw(canvas);
+    }
 
+    public void updateAndDrawDeck(GameCanvas canvas, int x, int y) {
+        this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
+        this.setSize(Constants.ACTIVE_CARD_WIDTH, Constants.ACTIVE_CARD_HEIGHT);
+        this.setPosition(x, y);
+        this.updateAndDraw(canvas);
+    }
 
     public void onMouseClick() {
         if (this.findBehavior(ButtonBehavior.class).isHovered()) {

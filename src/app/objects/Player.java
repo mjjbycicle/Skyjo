@@ -1,5 +1,6 @@
 package app.objects;
 
+import app.Constants;
 import core.GameCanvas;
 import core.GameObject;
 import core.behaviors.TextStyle;
@@ -14,7 +15,7 @@ public class Player extends GameObject {
     private final String name;
     private final int id;
     private int x;
-    public boolean active;
+    private boolean active;
 
     private enum Actions {
         DISCARD,
@@ -25,24 +26,42 @@ public class Player extends GameObject {
         this.name = name;
         this.id = id;
         this.mat = new Matrix();
-        x = id * 240 + 120;
+        x = id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING + Constants.INACTIVE_MATRIX_Y;
         text = (TextObject) new TextObject(
                 name,
                 FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
-                Color.BLACK,
+                Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
         ).setPosition(x, 400);
     }
 
-    public void updateAndDraw(GameCanvas canvas, boolean active) {
-
+    public void updateAndDraw(GameCanvas canvas) {
+        if (active) {
+            drawActive(canvas);
+        } else {
+            drawInactive(canvas);
+        }
+        text.draw(canvas);
     }
 
-    public void drawActive(GameCanvas canvas) {
+    private void drawActive(GameCanvas canvas) {
+        mat.updateAndDrawActive(canvas);
+    }
 
+    private void drawInactive(GameCanvas canvas) {
+        mat.updateAndDrawInactive(canvas, id);
     }
 
     public void deal(Card[] cards) {
         mat.deal(cards);
+    }
+
+    public void onMouseClick() {
+        mat.onMouseClick();
+    }
+
+    public void updateActive(boolean b) {
+        active = b;
+        mat.active = b;
     }
 }
