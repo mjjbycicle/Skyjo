@@ -33,7 +33,7 @@ public class Player extends GameObject {
                 FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
                 Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
-        ).setPosition(Constants.ZERO_X + 80 + id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 20);
+        ).setPosition(Constants.ZERO_X + 100 + id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 20);
     }
 
     public void updateAndDraw(GameCanvas canvas) {

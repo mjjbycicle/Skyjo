@@ -2,11 +2,11 @@ package app.states;
 
 import app.Constants;
 import app.Game;
-import app.objects.Card;
-import app.objects.Deck;
 import core.GameCanvas;
+import core.behaviors.TextStyle;
 import core.gameobjects.ButtonObject;
 import core.gameobjects.ImageObject;
+import core.gameobjects.TextObject;
 import core.input.MouseEvent;
 import core.math.Vec2;
 import core.states.AbstractGameState;
@@ -16,42 +16,45 @@ import core.util.FontLoader;
 import java.awt.*;
 import java.util.Iterator;
 
-import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 
-public class TurnFinishedState extends AbstractGameState {
+public class BetweenTurnsState extends AbstractGameState {
     private Game game;
     private AbstractGameState nextState;
 
-    private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
-
     private final ButtonObject continueButton = (ButtonObject) new ButtonObject(
-            "continue",
+            "start turn",
             FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
             new Color(0, 0, 0, 150),
-            WHITE,
+            new Color(18, 150, 255),
             WHITE,
             true
-    ).setPosition(new Vec2(Constants.CONTINUE_BUTTON_X, Constants.CONTINUE_BUTTON_Y));
+    ).setPosition(new Vec2(Constants.START_TURN_BUTTON_X, Constants.START_TURN_BUTTON_Y));
 
-    public TurnFinishedState(Game game) {
+    private final TextObject startTurnText;
+
+    public BetweenTurnsState(Game game) {
         this.game = game;
+        startTurnText = (TextObject) new TextObject(
+                "Player " + (game.getActivePlayerIndex() + 1),
+                FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
+                WHITE,
+                TextStyle.TextAlign.ALIGN_CENTER
+        ).setPosition(new Vec2(Constants.START_TURN_TEXT_X, Constants.START_TURN_TEXT_Y));
     }
 
     @Override
     public void draw(GameCanvas canvas) {
-        bg.updateAndDraw(canvas);
-        game.updateAndDraw(canvas);
         continueButton.updateAndDraw(canvas);
+        startTurnText.updateAndDraw(canvas);
     }
 
     @Override
     public void onMouseClick(MouseEvent me) {
         if (continueButton.isHovered()) {
-            game.advanceActivePlayer();
-            AbstractGameState theNextState = new BetweenTurnsState(game);
+            AbstractGameState theNextState = new TurnStartedState(game);
             nextState = GameStateGroup.groupStates(
-                    new FadeOutScene(this),
+                    new FadeInScene(theNextState),
                     theNextState
             );
         }
@@ -66,5 +69,4 @@ public class TurnFinishedState extends AbstractGameState {
     public Iterator<? extends AbstractGameState> getStatesAfter() {
         return makeIterator(nextState);
     }
-
 }

@@ -57,7 +57,7 @@ public class Deck extends GameObject {
     }
 
     public void push(Card card) {
-        card.faceDown = false;
+        card.setFaceDown(false);
         cards.add(0, card);
     }
 

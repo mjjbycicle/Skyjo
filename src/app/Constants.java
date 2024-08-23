@@ -9,7 +9,7 @@ public class Constants {
     public static int DRAW_DECK_Y = 0;
     public static int DISCARD_DECK_X = -500;
     public static int DISCARD_DECK_Y = 0;
-    public static int INACTIVE_MATRIX_WIDTH_WITH_PADDING = 210;
+    public static int INACTIVE_MATRIX_WIDTH_WITH_PADDING = 230;
     public static int INACTIVE_MATRIX_Y = 200;
     public static int DRAWN_CARD_X = -200;
     public static int DRAWN_CARD_Y = 350;
@@ -18,4 +18,8 @@ public class Constants {
     public static int ZERO_Y = -450;
     public static int CONTINUE_BUTTON_X = 900;
     public static int CONTINUE_BUTTON_Y = 400;
+    public static int START_TURN_BUTTON_X = 0;
+    public static int START_TURN_BUTTON_Y = 50;
+    public static int START_TURN_TEXT_X = 0;
+    public static int START_TURN_TEXT_Y = -20;
 }

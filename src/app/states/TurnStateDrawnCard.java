@@ -36,7 +36,6 @@ public class TurnStateDrawnCard extends AbstractGameState {
     public TurnStateDrawnCard(Game game, Card drawnCard) {
         this.game = game;
         this.drawnCard = drawnCard;
-        System.out.println(drawnCard.faceDown);
     }
 
     @Override

@@ -9,7 +9,7 @@ import core.util.ImageLoader;
 
 public class Card extends ImageObject {
     public final int num;
-    public boolean faceDown;
+    private boolean faceDown;
 
     public Card(int num, boolean faceDown) {
         super(num + ".png");
@@ -48,5 +48,13 @@ public class Card extends ImageObject {
         this.faceDown = faceDown;
         if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
         else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public boolean isFaceDown() {
+        return faceDown;
     }
 }

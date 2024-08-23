@@ -54,7 +54,7 @@ public class Matrix {
     public void flipCard() {
         for (Card[] i : matrix) {
             for (Card c : i) {
-                if (c.clicked() && c.faceDown) {
+                if (c.clicked() && c.isFaceDown()) {
                     c.setFaceDown(false);
                 }
             }
@@ -62,18 +62,58 @@ public class Matrix {
     }
 
     public void updateAndDrawActive(GameCanvas canvas) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
+        while (getRemovableCol() != -1) {
+            int col = getRemovableCol();
+            removeCol(col);
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
                 matrix[i][j].updateAndDrawActive(canvas, i, j, 0, 0);
             }
         }
     }
 
     public void updateAndDrawInactive(GameCanvas canvas, int index) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
                 matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 30 + index * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 100);
             }
         }
+    }
+
+    public void removeCol(int col) {
+        Card[][] newMatrix = new Card[3][matrix[0].length - 1];
+        for (int i = 0; i < matrix.length; i++) {
+            int index = 0;
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (j == col) continue;
+                newMatrix[i][index++] = matrix[i][j];
+            }
+        }
+        matrix = newMatrix;
+    }
+
+    public int getRemovableCol() {
+        for (int col = 0; col < matrix[0].length; col++) {
+            int start = matrix[0][col].getNum();
+            boolean equal = true;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[j][col].getNum() != start) {
+                    equal = false;
+                    break;
+                }
+            }
+            if (equal) return col;
+        }
+        return -1;
+    }
+
+    public boolean finished() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j].isFaceDown()) return false;
+            }
+        }
+        return true;
     }
 }

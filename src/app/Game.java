@@ -82,4 +82,8 @@ public class Game extends GameObject {
     public void discardCard(Card card) {
         discardDeck.push(card);
     }
+
+    public int getActivePlayerIndex() {
+        return activePlayerIndex;
+    }
 }
