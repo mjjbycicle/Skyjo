@@ -7,7 +7,6 @@ import app.objects.Player;
 import core.states.AbstractGameState;
 import core.states.InstantaneousGameState;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +33,6 @@ public class DealCardsState extends InstantaneousGameState {
 
     @Override
     public Iterator<? extends AbstractGameState> getStatesAfter() {
-        return makeIterator(new TurnState(new Game(players, drawDeck)));
+        return makeIterator(new TurnStartedState(new Game(players, drawDeck)));
     }
 }

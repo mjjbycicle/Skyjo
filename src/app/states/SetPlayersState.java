@@ -1,5 +1,6 @@
 package app.states;
 
+import app.Constants;
 import app.objects.Deck;
 import app.objects.Player;
 import core.GameCanvas;
@@ -87,7 +88,7 @@ public class SetPlayersState extends AbstractGameState {
                 for (int i = 1; i <= players.size(); i++) {
                     newPlayers.add(new Player(players.get(i - 1), i - 1));
                 }
-                var theNextState = new DealCardsState(newPlayers, new Deck(true));
+                AbstractGameState theNextState = new DealCardsState(newPlayers, new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y));
                 nextState = GameStateGroup.groupStates(
                         new FadeOutScene(this), new FadeInScene(theNextState),
                         theNextState

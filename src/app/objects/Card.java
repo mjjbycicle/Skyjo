@@ -15,39 +15,38 @@ public class Card extends ImageObject {
         super(num + ".png");
         this.num = num;
         this.faceDown = faceDown;
-        this.faceDown = true;
         this.addBehavior(
                 new ButtonBehavior()
         );
+        if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
+        else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
     }
 
     public void updateAndDrawActive(GameCanvas canvas, int i, int j, int startX, int startY) {
-        if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
-        else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
         this.setSize(Constants.ACTIVE_CARD_WIDTH, Constants.ACTIVE_CARD_HEIGHT);
         this.setPosition(startX + j * Constants.ACTIVE_CARD_WIDTH_WITH_PADDING, startY + i * Constants.ACTIVE_CARD_HEIGHT_WITH_PADDING);
         this.updateAndDraw(canvas);
     }
 
     public void updateAndDrawInactive(GameCanvas canvas, int i, int j, int startX, int startY) {
-        if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
-        else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
         this.setSize(Constants.INACTIVE_CARD_WIDTH, Constants.INACTIVE_CARD_HEIGHT);
         this.setPosition(startX + j * Constants.INACTIVE_CARD_WIDTH_WITH_PADDING, startY + i * Constants.INACTIVE_CARD_HEIGHT_WITH_PADDING);
         this.updateAndDraw(canvas);
     }
 
     public void updateAndDrawDeck(GameCanvas canvas, int x, int y) {
-        if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
-        else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
         this.setSize(Constants.ACTIVE_CARD_WIDTH, Constants.ACTIVE_CARD_HEIGHT);
         this.setPosition(x, y);
         this.updateAndDraw(canvas);
     }
 
-    public void onMouseClick() {
-        if (this.findBehavior(ButtonBehavior.class).isHovered()) {
-            this.faceDown = !this.faceDown;
-        }
+    public boolean clicked() {
+        return this.findBehavior(ButtonBehavior.class).isHovered();
+    }
+
+    public void setFaceDown(boolean faceDown) {
+        this.faceDown = faceDown;
+        if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
+        else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
     }
 }
