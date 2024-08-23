@@ -24,8 +24,8 @@ public class BetweenTurnsState extends AbstractGameState {
 
     private final ButtonObject continueButton = (ButtonObject) new ButtonObject(
             "start turn",
-            FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
-            new Color(0, 0, 0, 150),
+            FontLoader.load("font/TitilliumWeb-SemiBold.ttf").deriveFont(40f),
+            new Color(40, 160, 160, 50),
             new Color(18, 150, 255),
             WHITE,
             true
@@ -37,7 +37,7 @@ public class BetweenTurnsState extends AbstractGameState {
         this.game = game;
         startTurnText = (TextObject) new TextObject(
                 "Player " + (game.getActivePlayerIndex() + 1),
-                FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
+                FontLoader.load("font/TitilliumWeb-ExtraLight.ttf").deriveFont(60f),
                 WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
         ).setPosition(new Vec2(Constants.START_TURN_TEXT_X, Constants.START_TURN_TEXT_Y));

@@ -20,10 +20,10 @@ class FadeInScene extends AbstractGameState {
 
     public void draw(GameCanvas canvas) {
         s.draw(canvas);
-        canvas.setColor(setAlpha(BLACK, (int) (Math.max(1 - t, 0) * 255))).clear();
+        canvas.setColor(setAlpha(BLACK, (int) (Math.max(0.6 - t, 0) * 255))).clear();
     }
 
     public boolean isFinished() {
-        return t >= 1;
+        return t >= 0.6;
     }
 }
