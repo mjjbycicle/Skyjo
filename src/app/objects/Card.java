@@ -4,7 +4,9 @@ import app.Constants;
 import core.GameCanvas;
 import core.behaviors.ButtonBehavior;
 import core.behaviors.ImageRendererBehavior;
+import core.behaviors.PositionAnimationBehavior;
 import core.gameobjects.ImageObject;
+import core.math.Vec2;
 import core.util.ImageLoader;
 
 public class Card extends ImageObject {
@@ -15,8 +17,9 @@ public class Card extends ImageObject {
         super(num + ".png");
         this.num = num;
         this.faceDown = faceDown;
-        this.addBehavior(
-                new ButtonBehavior()
+        this.addBehaviors(
+                new ButtonBehavior(),
+                new PositionAnimationBehavior()
         );
         if (!faceDown) this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get(num + ".png"));
         else this.findBehavior(ImageRendererBehavior.class).setImage(ImageLoader.get("back.png"));
@@ -35,6 +38,7 @@ public class Card extends ImageObject {
     }
 
     public void updateAndDrawDeck(GameCanvas canvas, int x, int y) {
+        this.findBehavior(PositionAnimationBehavior.class).update();
         this.setSize(Constants.ACTIVE_CARD_WIDTH, Constants.ACTIVE_CARD_HEIGHT);
         this.setPosition(x, y);
         this.updateAndDraw(canvas);
@@ -56,5 +60,21 @@ public class Card extends ImageObject {
 
     public boolean isFaceDown() {
         return faceDown;
+    }
+
+    public void moveTo(int newX, int newY) {
+        this.findBehavior(PositionAnimationBehavior.class).moveTo(new Vec2(newX, newY), 20);
+    }
+
+    public void moveTo(Vec2 newPosition) {
+        this.findBehavior(PositionAnimationBehavior.class).moveTo(newPosition, 20);
+    }
+
+    public Vec2 getPositionVec2() {
+        return new Vec2(this.getPosition().x, this.getPosition().y);
+    }
+
+    public boolean finishedMoving() {
+        return this.findBehavior(PositionAnimationBehavior.class).finishedMoving();
     }
 }

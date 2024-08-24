@@ -16,7 +16,7 @@ public class Constants {
 
     public static int ZERO_X = -960;
     public static int ZERO_Y = -450;
-    public static int CONTINUE_BUTTON_X = 900;
+    public static int CONTINUE_BUTTON_X = 700;
     public static int CONTINUE_BUTTON_Y = 400;
     public static int START_TURN_BUTTON_X = 0;
     public static int START_TURN_BUTTON_Y = 50;

@@ -31,4 +31,8 @@ public class PositionAnimationBehavior extends UIBehavior {
 
         this.gameObject.setPosition(startPosition.plus(progress));
     }
+
+    public boolean finishedMoving() {
+        return elapsedTime >= animationDuration;
+    }
 }

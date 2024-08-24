@@ -6,6 +6,7 @@ import core.GameObject;
 import core.behaviors.TextRendererBehavior;
 import core.behaviors.TextStyle;
 import core.gameobjects.TextObject;
+import core.math.Vec2;
 import core.util.FontLoader;
 
 import java.awt.*;
@@ -66,6 +67,15 @@ public class Player extends GameObject {
 
     public Card matrixReplaceCard(Card replacement) {
         return mat.replaceCard(replacement);
+    }
+
+    public void matrixReplaceCard(Card replacement, Vec2 position) {
+        mat.replaceCard(replacement, position);
+    }
+
+    public Vec2 getClickedIndex() {
+        System.out.println("player:" + mat.getClicked());
+        return mat.getClicked();
     }
 
     public void matrixFlipCard() {

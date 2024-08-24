@@ -2,6 +2,7 @@ package app.objects;
 
 import app.Constants;
 import core.GameCanvas;
+import core.math.Vec2;
 
 public class Matrix {
     private Card[][] matrix;
@@ -14,12 +15,12 @@ public class Matrix {
 
     public void deal(Card[] cards) {
         for (int i = 0; i < cards.length; i++) {
-            if (i < 4) {
+            if (i < matrix[0].length) {
                 matrix[0][i] = cards[i];
-            } else if (i < 8) {
-                matrix[1][i - 4] = cards[i];
+            } else if (i < 2 * matrix[0].length) {
+                matrix[1][i - matrix[0].length] = cards[i];
             } else {
-                matrix[2][i - 8] = cards[i];
+                matrix[2][i - 2 * matrix[0].length] = cards[i];
             }
         }
     }
@@ -49,6 +50,22 @@ public class Matrix {
             }
         }
         return null;
+    }
+
+    public Vec2 getClicked() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j].clicked()) {
+                    System.out.println("mat:" + i + " " + j);
+                    return new Vec2(i, j);
+                }
+            }
+        }
+        return new Vec2(0, 0);
+    }
+
+    public void replaceCard(Card replacement, Vec2 clicked) {
+        matrix[(int)clicked.x][(int)clicked.y] = replacement;
     }
 
     public void flipCard() {

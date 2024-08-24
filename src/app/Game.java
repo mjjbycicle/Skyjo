@@ -6,6 +6,7 @@ import app.objects.Player;
 import core.GameCanvas;
 import core.GameObject;
 import core.behaviors.ButtonBehavior;
+import core.math.Vec2;
 
 import java.util.List;
 
@@ -48,6 +49,15 @@ public class Game extends GameObject {
         return players.get(activePlayerIndex).matrixReplaceCard(replacement);
     }
 
+    public void matrixReplaceCard(Card replacement, Vec2 position) {
+        players.get(activePlayerIndex).matrixReplaceCard(replacement, position);
+    }
+
+    public Vec2 getClickedIndex() {
+        System.out.println("game:" + players.get(activePlayerIndex).getClickedIndex());
+        return players.get(activePlayerIndex).getClickedIndex();
+    }
+
     public boolean matrixClicked() {
         return players.get(activePlayerIndex).matrixMouseClicked();
     }
@@ -60,14 +70,12 @@ public class Game extends GameObject {
     public Card drawDeckCard() {
         Card drawnCard = drawDeck.drawCard();
         drawnCard.setFaceDown(false);
-        drawnCard.setPosition(Constants.DRAWN_CARD_X, Constants.DRAWN_CARD_Y);
         return drawnCard;
     }
 
     public Card drawFromDiscard() {
         Card drawnCard = discardDeck.drawCard();
         drawnCard.setFaceDown(false);
-        drawnCard.setPosition(Constants.DRAWN_CARD_X, Constants.DRAWN_CARD_Y);
         return drawnCard;
     }
 

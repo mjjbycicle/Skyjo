@@ -2,6 +2,7 @@ package app.states;
 
 import app.Constants;
 import app.Game;
+import app.Styles;
 import app.objects.Card;
 import core.GameCanvas;
 import core.gameobjects.ButtonObject;
@@ -24,7 +25,7 @@ public class TurnStartedState extends AbstractGameState {
 
     private final ButtonObject continueButton = (ButtonObject) new ButtonObject(
             "continue",
-            FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
+            Styles.buttonFont,
             new Color(0, 0, 0, 150),
             WHITE,
             GRAY,
@@ -51,10 +52,10 @@ public class TurnStartedState extends AbstractGameState {
     public void onMouseClick(MouseEvent me) {
         if (game.drawDeckClicked()) {
             Card nextCard = game.drawDeckCard();
-            nextState = new TurnStateDrawnCard(game, nextCard);
+            nextState = new StartedToDrawnStateTransition(game, nextCard);
         } else if (game.discardDeckClicked() && !game.discardDeckEmpty()) {
             Card nextCard = game.drawFromDiscard();
-            nextState = new TurnStateDrawnCard(game, nextCard);
+            nextState = new StartedToDrawnStateTransition(game, nextCard);
         }
     }
 

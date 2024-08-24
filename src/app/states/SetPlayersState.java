@@ -1,6 +1,7 @@
 package app.states;
 
 import app.Constants;
+import app.Styles;
 import app.objects.Deck;
 import app.objects.Player;
 import core.GameCanvas;
@@ -37,7 +38,7 @@ public class SetPlayersState extends AbstractGameState {
         for (String name : players) {
             playerSidebar.addChild(new TextObject(
                     name,
-                    FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
+                    Styles.textFont,
                     WHITE,
                     0
             ).resizeToFit(10));
@@ -46,25 +47,21 @@ public class SetPlayersState extends AbstractGameState {
 
         addPlayerButton = (ButtonObject) new ButtonObject(
                 "add player",
-                FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
-                BLACK,
-                WHITE,
+                Styles.buttonFont.deriveFont(60f),
+                Styles.buttonBGColor,
+                Styles.buttonBorderColor,
                 (players.size() != 8)? WHITE : GRAY,
                 players.size() != 8
         ).setPosition(new Vec2(0, 360));
 
         continueButton = (ButtonObject) new ButtonObject(
                 "continue",
-                FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
-                BLACK,
-                WHITE,
+                Styles.buttonFont.deriveFont(60f),
+                Styles.buttonBGColor,
+                Styles.buttonBorderColor,
                 (players.size() >= 2)? WHITE : GRAY,
                 players.size() >= 2
         ).setPosition(new Vec2(0, 260));
-    }
-
-    public SetPlayersState() {
-        this(new ArrayList<>());
     }
 
     private final ButtonObject addPlayerButton;

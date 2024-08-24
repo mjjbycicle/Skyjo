@@ -1,6 +1,7 @@
 package app.states;
 
 import app.Game;
+import app.Styles;
 import core.GameCanvas;
 import core.GameObject;
 import core.gameobjects.ButtonObject;
@@ -21,10 +22,10 @@ public class TitleState extends AbstractGameState {
 
     private final ButtonObject startButton = (ButtonObject) new ButtonObject(
             "Start Game",
-            FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(60f),
-            new Color(0, 0, 0, 150),
-            WHITE,
-            WHITE,
+            Styles.buttonFont.deriveFont(60f),
+            Styles.buttonBGColor,
+            Styles.buttonBorderColor,
+            Styles.buttonTextColor,
             true
     ).setPosition(new Vec2(0, 360));
 

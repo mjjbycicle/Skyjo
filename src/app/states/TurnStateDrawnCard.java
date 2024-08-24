@@ -50,13 +50,12 @@ public class TurnStateDrawnCard extends AbstractGameState {
     public void onMouseClick(MouseEvent me) {
         System.out.println("drawn");
         if (game.matrixClicked()) {
+            Vec2 clickedIndex = game.getClickedIndex();
             Card thrown = game.matrixReplaceCard(drawnCard);
             thrown.setFaceDown(false);
-            game.discardCard(thrown);
-            nextState = new TurnFinishedState(game);
+            nextState = new DrawnToReplaceStateTransition(game, drawnCard, thrown, clickedIndex);
         } else if (game.discardDeckClicked()) {
-            game.discardCard(drawnCard);
-            nextState = new TurnStateDiscardedDrawnCard(game);
+            nextState = new DrawnToDiscardedStateTransition(game, drawnCard);
         }
     }
 

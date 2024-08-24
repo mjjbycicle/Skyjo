@@ -2,40 +2,41 @@ package app.states;
 
 import app.Constants;
 import app.Game;
+import app.Styles;
 import app.objects.Card;
-import app.objects.Deck;
 import core.GameCanvas;
 import core.gameobjects.ButtonObject;
 import core.gameobjects.ImageObject;
 import core.input.MouseEvent;
 import core.math.Vec2;
 import core.states.AbstractGameState;
-import core.states.GameStateGroup;
 import core.util.FontLoader;
 
 import java.awt.*;
 import java.util.Iterator;
 
-import static java.awt.Color.GRAY;
-import static java.awt.Color.WHITE;
+import static java.awt.Color.*;
 
-public class TurnFinishedState extends AbstractGameState {
+public class DrawnToDiscardedStateTransition extends AbstractGameState {
     private Game game;
     private AbstractGameState nextState;
+    private Card drawnCard;
 
     private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
 
     private final ButtonObject continueButton = (ButtonObject) new ButtonObject(
             "continue",
-            FontLoader.load("font/JetBrainsMono-Regular.ttf").deriveFont(40f),
+            Styles.buttonFont,
             new Color(0, 0, 0, 150),
             WHITE,
-            WHITE,
-            true
+            GRAY,
+            false
     ).setPosition(new Vec2(Constants.CONTINUE_BUTTON_X, Constants.CONTINUE_BUTTON_Y));
 
-    public TurnFinishedState(Game game) {
-        this.game = game;
+    public DrawnToDiscardedStateTransition(Game g, Card drawnCard) {
+        this.game = g;
+        this.drawnCard = drawnCard;
+        drawnCard.moveTo(Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
     }
 
     @Override
@@ -43,21 +44,15 @@ public class TurnFinishedState extends AbstractGameState {
         bg.updateAndDraw(canvas);
         game.updateAndDraw(canvas);
         continueButton.updateAndDraw(canvas);
-    }
-
-    @Override
-    public void onMouseClick(MouseEvent me) {
-        if (continueButton.isHovered()) {
-            AbstractGameState theNextState = new BetweenTurnsState(game);
-            nextState = GameStateGroup.groupStates(
-                    new FadeOutScene(this),
-                    theNextState
-            );
-        }
+        drawnCard.updateAndDraw(canvas);
     }
 
     @Override
     public boolean isFinished() {
+        if (drawnCard.finishedMoving()) {
+            game.discardCard(drawnCard);
+            nextState = new TurnStateDiscardedDrawnCard(game);
+        }
         return nextState != null;
     }
 
