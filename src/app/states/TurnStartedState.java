@@ -50,6 +50,7 @@ public class TurnStartedState extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
+        System.out.println("clicked");
         if (game.drawDeckClicked()) {
             Card nextCard = game.drawDeckCard();
             nextState = new StartedToDrawnStateTransition(game, nextCard);

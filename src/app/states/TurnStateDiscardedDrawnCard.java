@@ -46,8 +46,8 @@ public class TurnStateDiscardedDrawnCard extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (game.matrixClicked()) {
-            game.matrixFlipCard();
-            nextState = new TurnFinishedState(game);
+            if (game.matrixFlipCard())
+                nextState = new TurnFinishedState(game);
         }
     }
 

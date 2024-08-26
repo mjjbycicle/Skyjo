@@ -63,11 +63,11 @@ public class Card extends ImageObject {
     }
 
     public void moveTo(int newX, int newY) {
-        this.findBehavior(PositionAnimationBehavior.class).moveTo(new Vec2(newX, newY), 20);
+        this.findBehavior(PositionAnimationBehavior.class).moveTo(new Vec2(newX, newY), 30);
     }
 
     public void moveTo(Vec2 newPosition) {
-        this.findBehavior(PositionAnimationBehavior.class).moveTo(newPosition, 20);
+        this.findBehavior(PositionAnimationBehavior.class).moveTo(newPosition, 30);
     }
 
     public Vec2 getPositionVec2() {

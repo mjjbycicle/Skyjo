@@ -1,6 +1,7 @@
 package app.states;
 
 import app.Constants;
+import app.Game;
 import app.Styles;
 import app.objects.Deck;
 import app.objects.Player;
@@ -50,7 +51,7 @@ public class SetPlayersState extends AbstractGameState {
                 Styles.buttonFont.deriveFont(60f),
                 Styles.buttonBGColor,
                 Styles.buttonBorderColor,
-                (players.size() != 8)? WHITE : GRAY,
+                (players.size() != 8) ? WHITE : GRAY,
                 players.size() != 8
         ).setPosition(new Vec2(0, 360));
 
@@ -59,7 +60,7 @@ public class SetPlayersState extends AbstractGameState {
                 Styles.buttonFont.deriveFont(60f),
                 Styles.buttonBGColor,
                 Styles.buttonBorderColor,
-                (players.size() >= 2)? WHITE : GRAY,
+                (players.size() >= 2) ? WHITE : GRAY,
                 players.size() >= 2
         ).setPosition(new Vec2(0, 260));
     }
@@ -80,19 +81,21 @@ public class SetPlayersState extends AbstractGameState {
     public void onMouseClick(MouseEvent e) {
         if (continueButton.isHovered()) {
             if (players.size() >= 2) {
-                System.out.println("continue");
                 List<Player> newPlayers = new ArrayList<>();
                 for (int i = 1; i <= players.size(); i++) {
                     newPlayers.add(new Player(players.get(i - 1), i - 1));
                 }
-                AbstractGameState theNextState = new DealCardsState(newPlayers, new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y));
+                AbstractGameState theNextState = new DealCardsState(
+                        new Game(newPlayers,
+                                new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y)
+                        )
+                );
                 nextState = GameStateGroup.groupStates(
                         new FadeOutScene(this), new FadeInScene(theNextState),
                         theNextState
                 );
             }
-        }
-        else if (addPlayerButton.isHovered() && players.size() < 8) {
+        } else if (addPlayerButton.isHovered() && players.size() < 8) {
             players.add("Player " + (players.size() + 1));
             nextState = new SetPlayersState(players);
         }

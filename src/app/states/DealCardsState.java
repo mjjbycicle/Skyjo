@@ -11,28 +11,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class DealCardsState extends InstantaneousGameState {
-    private List<Player> players;
-    private Deck drawDeck;
+    private Game game;
 
-    public DealCardsState(List<Player> players, Deck drawDeck) {
-        this.players = players;
-        this.drawDeck = drawDeck;
+    public DealCardsState(Game game) {
+        this.game = game;
     }
-
 
     @Override
     public void execute() {
-        for (Player player : players) {
-            Card[] cards = new Card[12];
-            for (int i = 0; i < 12; i++) {
-                cards[i] = drawDeck.drawCard();
-            }
-            player.deal(cards);
-        }
+        game.dealCards();
     }
 
     @Override
     public Iterator<? extends AbstractGameState> getStatesAfter() {
-        return makeIterator(new TurnStartedState(new Game(players, drawDeck)));
+        return makeIterator(new TurnStartedState(game));
     }
 }

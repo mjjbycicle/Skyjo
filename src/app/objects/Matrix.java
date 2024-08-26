@@ -9,11 +9,11 @@ public class Matrix {
     public boolean active;
 
     public Matrix() {
-        matrix = new Card[3][4];
         active = false;
     }
 
     public void deal(Card[] cards) {
+        matrix = new Card[3][4];
         for (int i = 0; i < cards.length; i++) {
             if (i < matrix[0].length) {
                 matrix[0][i] = cards[i];
@@ -56,7 +56,6 @@ public class Matrix {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j].clicked()) {
-                    System.out.println("mat:" + i + " " + j);
                     return new Vec2(i, j);
                 }
             }
@@ -68,14 +67,16 @@ public class Matrix {
         matrix[(int)clicked.x][(int)clicked.y] = replacement;
     }
 
-    public void flipCard() {
+    public boolean flipCard() {
         for (Card[] i : matrix) {
             for (Card c : i) {
                 if (c.clicked() && c.isFaceDown()) {
                     c.setFaceDown(false);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void updateAndDrawActive(GameCanvas canvas) {
@@ -93,7 +94,7 @@ public class Matrix {
     public void updateAndDrawInactive(GameCanvas canvas, int index) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 30 + index * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 100);
+                matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 30 + index * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 80);
             }
         }
     }
@@ -115,7 +116,7 @@ public class Matrix {
             int start = matrix[0][col].getNum();
             boolean equal = true;
             for (int j = 0; j < matrix.length; j++) {
-                if (matrix[j][col].getNum() != start) {
+                if (matrix[j][col].getNum() != start || matrix[j][col].isFaceDown()) {
                     equal = false;
                     break;
                 }
@@ -126,11 +127,23 @@ public class Matrix {
     }
 
     public boolean finished() {
-        for (int i = 0; i < matrix.length; i++) {
+        for (Card[] cards : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j].isFaceDown()) return false;
+                if (cards[j].isFaceDown()) return false;
             }
         }
         return true;
+    }
+
+    public int getScore() {
+        int score = 0;
+        for (Card[] i : matrix) {
+            for (Card j : i) {
+                if (!j.isFaceDown()) {
+                    score += j.getNum();
+                }
+            }
+        }
+        return score;
     }
 }

@@ -5,21 +5,25 @@ import app.objects.Deck;
 import app.objects.Player;
 import core.GameCanvas;
 import core.GameObject;
-import core.behaviors.ButtonBehavior;
 import core.math.Vec2;
 
-import java.util.List;
+import java.util.*;
 
 public class Game extends GameObject {
     private List<Player> players;
     private Deck drawDeck, discardDeck;
     private int activePlayerIndex = 0;
+    private HashMap<Integer, Integer> scores = new HashMap<>();
+    private int finisherID = -1;
 
     public Game(List<Player> players, Deck drawDeck) {
         this.players = players;
         this.drawDeck = drawDeck;
         this.discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
         players.get(activePlayerIndex).updateActive(true);
+        for (Player player : players) {
+            scores.put(player.getID(), 0);
+        }
     }
 
     public void advanceActivePlayer() {
@@ -27,6 +31,12 @@ public class Game extends GameObject {
         activePlayerIndex %= players.size();
         for (int i = 0; i < players.size(); i++) {
             players.get(i).updateActive(i == activePlayerIndex);
+        }
+    }
+
+    public void updateAndDrawScores(GameCanvas canvas) {
+        for (Player player : players) {
+            player.updateAndDrawScore(canvas, scores.get(player.getID()));
         }
     }
 
@@ -39,10 +49,8 @@ public class Game extends GameObject {
         discardDeck.updateAndDraw(canvas);
     }
 
-    public void matrixFlipCard() {
-        if (players.get(activePlayerIndex).matrixMouseClicked()) {
-            players.get(activePlayerIndex).matrixFlipCard();
-        }
+    public boolean matrixFlipCard() {
+        return players.get(activePlayerIndex).matrixFlipCard();
     }
 
     public Card matrixReplaceCard(Card replacement) {
@@ -54,7 +62,6 @@ public class Game extends GameObject {
     }
 
     public Vec2 getClickedIndex() {
-        System.out.println("game:" + players.get(activePlayerIndex).getClickedIndex());
         return players.get(activePlayerIndex).getClickedIndex();
     }
 
@@ -63,7 +70,6 @@ public class Game extends GameObject {
     }
 
     public boolean drawDeckClicked() {
-        System.out.println("drawDeck");
         return drawDeck.clicked();
     }
 
@@ -94,4 +100,49 @@ public class Game extends GameObject {
     public int getActivePlayerIndex() {
         return activePlayerIndex;
     }
+
+    public void advanceRound() {
+        scoreRound();
+        for (Player player : players) {
+            player.advanceRound();
+        }
+        activePlayerIndex = 0;
+        finisherID = -1;
+        discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
+    }
+
+    public boolean isRoundFinished() {
+        for (Player player : players) {
+            if (player.roundFinished()) {
+                finisherID = player.getID();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void scoreRound() {
+        SortedSet<Player> playerScores = new TreeSet<>(Comparator.comparingInt(Player::getRoundScore));
+        playerScores.addAll(players);
+        ArrayList<Player> playersOrdered = new ArrayList<>(playerScores);
+        for (Player player : players) {
+            scores.put(player.getID(), scores.get(player.getID()) + player.getRoundScore());
+        }
+        if (playersOrdered.get(0).getID() != finisherID) {
+            scores.put(finisherID,
+                    scores.get(players.get(finisherID).getID()) + players.get(finisherID).getRoundScore());
+        }
+    }
+
+    public void dealCards() {
+        for (Player player : players) {
+            Card[] cards = new Card[12];
+            for (int i = 0; i < 12; i++) {
+                cards[i] = drawDeck.drawCard();
+            }
+            player.deal(cards);
+        }
+    }
+
+
 }

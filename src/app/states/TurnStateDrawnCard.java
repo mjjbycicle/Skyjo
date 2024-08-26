@@ -48,7 +48,6 @@ public class TurnStateDrawnCard extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
-        System.out.println("drawn");
         if (game.matrixClicked()) {
             Vec2 clickedIndex = game.getClickedIndex();
             Card thrown = game.matrixReplaceCard(drawnCard);

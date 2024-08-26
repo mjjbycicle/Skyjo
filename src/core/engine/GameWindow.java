@@ -41,7 +41,7 @@ public class GameWindow extends JFrame {
     public GameWindow(String title, Vec2 minWindowSize, Vec2 referenceWindowResolution) {
         // Init window
         super();
-        setTitle("Kingdom Builder");
+        setTitle(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Get window border

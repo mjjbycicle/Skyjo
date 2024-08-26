@@ -2,8 +2,6 @@ package app.states;
 
 import app.Constants;
 import app.Game;
-import app.objects.Card;
-import app.objects.Deck;
 import core.GameCanvas;
 import core.gameobjects.ButtonObject;
 import core.gameobjects.ImageObject;
@@ -16,7 +14,6 @@ import core.util.FontLoader;
 import java.awt.*;
 import java.util.Iterator;
 
-import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 
 public class TurnFinishedState extends AbstractGameState {
@@ -48,11 +45,19 @@ public class TurnFinishedState extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (continueButton.isHovered()) {
-            AbstractGameState theNextState = new BetweenTurnsState(game);
-            nextState = GameStateGroup.groupStates(
-                    new FadeOutScene(this),
-                    theNextState
-            );
+            if (game.isRoundFinished()) {
+                game.advanceRound();
+                nextState = GameStateGroup.groupStates(
+                        new FadeOutScene(this),
+                        new RoundEndState(game)
+                );
+            } else {
+                AbstractGameState theNextState = new BetweenTurnsState(game);
+                nextState = GameStateGroup.groupStates(
+                        new FadeOutScene(this),
+                        theNextState
+                );
+            }
         }
     }
 
