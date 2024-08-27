@@ -45,7 +45,9 @@ public class TurnStateDiscardedDrawnCard extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
+        System.out.println("discardedClicked");
         if (game.matrixClicked()) {
+            System.out.println("matClicked");
             if (game.matrixFlipCard())
                 nextState = new TurnFinishedState(game);
         }

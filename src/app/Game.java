@@ -109,6 +109,8 @@ public class Game extends GameObject {
         activePlayerIndex = 0;
         finisherID = -1;
         discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
+        drawDeck = new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
+        dealCards();
     }
 
     public boolean isRoundFinished() {
@@ -144,5 +146,7 @@ public class Game extends GameObject {
         }
     }
 
-
+    public int getNumPlayers() {
+        return players.size();
+    }
 }

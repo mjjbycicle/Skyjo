@@ -37,7 +37,7 @@ public class BetweenTurnsState extends AbstractGameState {
     public BetweenTurnsState(Game game) {
         this.game = game;
         startTurnText = (TextObject) new TextObject(
-                "Player " + (game.getActivePlayerIndex() + 1),
+                "Player " + ((game.getActivePlayerIndex() + 1) % game.getNumPlayers() + 1),
                 Styles.textFont,
                 WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER

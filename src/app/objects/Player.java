@@ -51,7 +51,7 @@ public class Player extends GameObject {
         ).setPosition(-100, -180);
         scoreText = (TextObject) new TextObject(
                 name,
-                Styles.textFont.deriveFont(50f),
+                Styles.textFont.deriveFont(40f),
                 Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
         ).setPosition(Constants.ZERO_X + 140 + id * 250, Constants.ZERO_Y + 100);
