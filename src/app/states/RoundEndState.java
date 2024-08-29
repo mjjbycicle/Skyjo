@@ -37,6 +37,7 @@ public class RoundEndState extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (startButton.isHovered()) {
+            game.advanceRound();
             AbstractGameState theNextState = new DealCardsState(game);
             nextState = GameStateGroup.groupStates(
                     new FadeOutScene(this),

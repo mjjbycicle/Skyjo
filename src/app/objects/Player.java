@@ -39,7 +39,7 @@ public class Player extends GameObject {
         x = id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING + Constants.INACTIVE_MATRIX_Y;
         text = (TextObject) new TextObject(
                 name + ": " + scores.get(round),
-                Styles.textFont,
+                Styles.textFont.deriveFont(40f),
                 Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
         ).setPosition(Constants.ZERO_X + 100 + id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y);
@@ -90,7 +90,8 @@ public class Player extends GameObject {
         mat.updateAndDrawInactive(canvas, id);
     }
 
-    public void deal(Card[] cards) {
+    public void deal(int[] cards) {
+        mat = new Matrix();
         mat.deal(cards);
     }
 

@@ -46,7 +46,7 @@ public class TurnFinishedState extends AbstractGameState {
     public void onMouseClick(MouseEvent me) {
         if (continueButton.isHovered()) {
             if (game.isRoundFinished()) {
-                game.advanceRound();
+                game.scoreRound();
                 nextState = GameStateGroup.groupStates(
                         new FadeOutScene(this),
                         new RoundEndState(game)

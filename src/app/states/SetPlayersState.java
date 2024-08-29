@@ -30,6 +30,10 @@ public class SetPlayersState extends AbstractGameState {
 
     private List<String> players;
 
+    private final ButtonObject addPlayerButton, removePlayerButton;
+    private final ButtonObject continueButton;
+    private final GameObject playerSidebar = new VerticalLayoutObject();
+
 
     private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
 
@@ -44,7 +48,7 @@ public class SetPlayersState extends AbstractGameState {
                     0
             ).resizeToFit(10));
         }
-        playerSidebar.setPosition(new Vec2(0, 0));
+        playerSidebar.setPosition(new Vec2(0, -200));
 
         addPlayerButton = (ButtonObject) new ButtonObject(
                 "add player",
@@ -54,6 +58,15 @@ public class SetPlayersState extends AbstractGameState {
                 (players.size() != 8) ? WHITE : GRAY,
                 players.size() != 8
         ).setPosition(new Vec2(0, 360));
+
+        removePlayerButton = (ButtonObject) new ButtonObject(
+                "remove player",
+                Styles.buttonFont.deriveFont(60f),
+                Styles.buttonBGColor,
+                Styles.buttonBorderColor,
+                (players.size() != 2) ? WHITE : GRAY,
+                players.size() != 2
+        ).setPosition(new Vec2(0, 460));
 
         continueButton = (ButtonObject) new ButtonObject(
                 "continue",
@@ -65,14 +78,11 @@ public class SetPlayersState extends AbstractGameState {
         ).setPosition(new Vec2(0, 260));
     }
 
-    private final ButtonObject addPlayerButton;
-    private final ButtonObject continueButton;
-    private final GameObject playerSidebar = new VerticalLayoutObject();
-
     @Override
     public void draw(GameCanvas canvas) {
         bg.updateAndDraw(canvas);
         addPlayerButton.updateAndDraw(canvas);
+        removePlayerButton.updateAndDraw(canvas);
         continueButton.updateAndDraw(canvas);
         playerSidebar.updateAndDraw(canvas);
     }
@@ -97,6 +107,9 @@ public class SetPlayersState extends AbstractGameState {
             }
         } else if (addPlayerButton.isHovered() && players.size() < 8) {
             players.add("Player " + (players.size() + 1));
+            nextState = new SetPlayersState(players);
+        } else if (removePlayerButton.isHovered() && players.size() > 2) {
+            players.remove(players.size() - 1);
             nextState = new SetPlayersState(players);
         }
     }
