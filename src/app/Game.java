@@ -122,6 +122,15 @@ public class Game extends GameObject {
         return false;
     }
 
+    public boolean isGameFinished() {
+        for (Player player : players) {
+            if (scores.get(player.getID()) >= 100) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void scoreRound() {
         SortedSet<Player> playerScores = new TreeSet<>(Comparator.comparingInt(Player::getRoundScore));
         playerScores.addAll(players);

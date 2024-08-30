@@ -91,7 +91,6 @@ public class Player extends GameObject {
     }
 
     public void deal(int[] cards) {
-        mat = new Matrix();
         mat.deal(cards);
     }
 
