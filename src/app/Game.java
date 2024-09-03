@@ -102,7 +102,6 @@ public class Game extends GameObject {
     }
 
     public void advanceRound() {
-        scoreRound();
         for (Player player : players) {
             player.advanceRound();
         }
@@ -123,7 +122,16 @@ public class Game extends GameObject {
         return false;
     }
 
-    private void scoreRound() {
+    public boolean isGameFinished() {
+        for (Player player : players) {
+            if (scores.get(player.getID()) >= 100) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void scoreRound() {
         SortedSet<Player> playerScores = new TreeSet<>(Comparator.comparingInt(Player::getRoundScore));
         playerScores.addAll(players);
         ArrayList<Player> playersOrdered = new ArrayList<>(playerScores);
@@ -138,9 +146,9 @@ public class Game extends GameObject {
 
     public void dealCards() {
         for (Player player : players) {
-            Card[] cards = new Card[12];
+            int[] cards = new int[12];
             for (int i = 0; i < 12; i++) {
-                cards[i] = drawDeck.drawCard();
+                cards[i] = drawDeck.drawCard().getNum();
             }
             player.deal(cards);
         }
