@@ -12,15 +12,15 @@ public class Matrix {
         active = false;
     }
 
-    public void deal(Card[] cards) {
+    public void deal(int[] cards) {
         matrix = new Card[3][4];
         for (int i = 0; i < cards.length; i++) {
             if (i < matrix[0].length) {
-                matrix[0][i] = cards[i];
+                matrix[0][i] = new Card(cards[i], true);
             } else if (i < 2 * matrix[0].length) {
-                matrix[1][i - matrix[0].length] = cards[i];
+                matrix[1][i - matrix[0].length] = new Card(cards[i], true);
             } else {
-                matrix[2][i - 2 * matrix[0].length] = cards[i];
+                matrix[2][i - 2 * matrix[0].length] = new Card(cards[i], true);
             }
         }
     }
