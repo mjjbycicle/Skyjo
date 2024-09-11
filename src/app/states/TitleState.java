@@ -4,8 +4,10 @@ import app.Game;
 import app.Styles;
 import core.GameCanvas;
 import core.GameObject;
+import core.behaviors.TextStyle;
 import core.gameobjects.ButtonObject;
 import core.gameobjects.ImageObject;
+import core.gameobjects.TextObject;
 import core.input.MouseEvent;
 import core.math.Vec2;
 import core.states.AbstractGameState;
@@ -19,6 +21,13 @@ import static java.awt.Color.*;
 
 public class TitleState extends AbstractGameState {
     private AbstractGameState nextState;
+
+    private final TextObject skyjoText = (TextObject) new TextObject(
+            "Skyjo",
+            Styles.textFont.deriveFont(100f),
+            Styles.buttonTextColor,
+            TextStyle.TextAlign.ALIGN_CENTER
+    ).setPosition(0, -100);
 
     private final ButtonObject startButton = (ButtonObject) new ButtonObject(
             "Start Game",
@@ -35,6 +44,7 @@ public class TitleState extends AbstractGameState {
     public void draw(GameCanvas canvas) {
         bg.updateAndDraw(canvas);
         startButton.updateAndDraw(canvas);
+        skyjoText.updateAndDraw(canvas);
     }
 
     @Override

@@ -45,19 +45,29 @@ public class TurnFinishedState extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (continueButton.isHovered()) {
-            if (game.isRoundFinished()) {
-                game.scoreRound();
-                nextState = GameStateGroup.groupStates(
-                        new FadeOutScene(this),
-                        new RoundEndState(game)
-                );
-            } else {
-                AbstractGameState theNextState = new BetweenTurnsState(game);
-                nextState = GameStateGroup.groupStates(
-                        new FadeOutScene(this),
-                        theNextState
-                );
+            if (game.isLastRound()) {
+                if (game.getActivePlayerIndex() == game.getNumPlayers() - 1) {
+                    if (game.isGameFinished()){
+                        game.scoreRound();
+                        nextState = GameStateGroup.groupStates(
+                                new FadeOutScene(this),
+                                new GameEndState(game)
+                        );
+                    } else {
+                        game.scoreRound();
+                        nextState = GameStateGroup.groupStates(
+                                new FadeOutScene(this),
+                                new RoundEndState(game)
+                        );
+                        return;
+                    }
+                }
             }
+            AbstractGameState theNextState = new BetweenTurnsState(game);
+            nextState = GameStateGroup.groupStates(
+                    new FadeOutScene(this),
+                    theNextState
+            );
         }
     }
 

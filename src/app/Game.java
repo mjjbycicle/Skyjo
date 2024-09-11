@@ -112,7 +112,7 @@ public class Game extends GameObject {
         dealCards();
     }
 
-    public boolean isRoundFinished() {
+    public boolean isLastRound() {
         for (Player player : players) {
             if (player.roundFinished()) {
                 finisherID = player.getID();
@@ -156,5 +156,16 @@ public class Game extends GameObject {
 
     public int getNumPlayers() {
         return players.size();
+    }
+
+    public Player getWinner() {
+        Player winner = players.get(0);
+        for (int i = 1; i < players.size(); i++) {
+            Player p = players.get(i);
+            if (scores.get(p.getID()) < scores.get(winner.getID())) {
+                winner = p;
+            }
+        }
+        return winner;
     }
 }
