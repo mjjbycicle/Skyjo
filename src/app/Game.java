@@ -113,6 +113,10 @@ public class Game extends GameObject {
     }
 
     public boolean isRoundFinished() {
+        return isLastRound() && activePlayerIndex == players.size() - 1;
+    }
+
+    private boolean isLastRound() {
         for (Player player : players) {
             if (player.roundFinished()) {
                 finisherID = player.getID();
