@@ -109,7 +109,6 @@ public class Game extends GameObject {
         finisherID = -1;
         discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
         drawDeck = new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
-        dealCards();
     }
 
     public boolean isRoundFinished() {
@@ -146,13 +145,14 @@ public class Game extends GameObject {
             scores.put(finisherID,
                     scores.get(players.get(finisherID).getID()) + players.get(finisherID).getRoundScore());
         }
+        dealCards();
     }
 
     public void dealCards() {
         for (Player player : players) {
-            int[] cards = new int[12];
+            Card[] cards = new Card[12];
             for (int i = 0; i < 12; i++) {
-                cards[i] = drawDeck.drawCard().getNum();
+                cards[i] = drawDeck.drawCard();
             }
             player.deal(cards);
         }

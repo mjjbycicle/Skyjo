@@ -5,6 +5,7 @@ import app.objects.Card;
 import app.objects.Deck;
 import app.objects.Player;
 import core.states.AbstractGameState;
+import core.states.GameStateGroup;
 import core.states.InstantaneousGameState;
 
 import java.util.Iterator;
@@ -17,13 +18,15 @@ public class DealCardsState extends InstantaneousGameState {
         this.game = game;
     }
 
-    @Override
-    public void execute() {
-        game.dealCards();
-    }
 
     @Override
     public Iterator<? extends AbstractGameState> getStatesAfter() {
-        return makeIterator(new TurnStartedState(game));
+        AbstractGameState theNextState = new TurnStartedState(game);
+        return makeIterator(theNextState);
+    }
+
+    @Override
+    public void execute() {
+        game.dealCards();
     }
 }

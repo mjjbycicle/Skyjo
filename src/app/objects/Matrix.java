@@ -7,21 +7,31 @@ import core.math.Vec2;
 public class Matrix {
     private Card[][] matrix;
     public boolean active;
+    private boolean dealt = false;
 
     public Matrix() {
         active = false;
+        dealt = false;
     }
 
-    public void deal(int[] cards) {
+    public void deal(Card[] cards) {
         matrix = new Card[3][4];
         for (int i = 0; i < cards.length; i++) {
             if (i < matrix[0].length) {
-                matrix[0][i] = new Card(cards[i], true);
+                replaceCard(new Card(cards[i].getNum(), true), new Vec2(0, i));
             } else if (i < 2 * matrix[0].length) {
-                matrix[1][i - matrix[0].length] = new Card(cards[i], true);
+                replaceCard(new Card(cards[i].getNum(), true), new Vec2(1,i - matrix[0].length));
             } else {
-                matrix[2][i - 2 * matrix[0].length] = new Card(cards[i], true);
+                replaceCard(new Card(cards[i].getNum(), true), new Vec2(2, i - 2 * matrix[0].length));
             }
+        }
+        dealt = true;
+    }
+
+    public void dealEmpty() {
+        matrix = new Card[3][4];
+        for (int i = 0; i < 3; i++) for (int j = 0; j < 4; j++) {
+            matrix[i][j] = new EmptyCardObject(0, true);
         }
     }
 
@@ -132,6 +142,7 @@ public class Matrix {
                 if (cards[j].isFaceDown()) return false;
             }
         }
+        dealt = false;
         return true;
     }
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 public class Player extends GameObject {
     private Matrix mat;
+    private Matrix clickMatrix;
     private TextObject text;
     private TextObject activeText;
     private TextObject scoreText;
@@ -35,6 +36,7 @@ public class Player extends GameObject {
         this.name = name;
         this.id = id;
         this.mat = new Matrix();
+        this.clickMatrix = new Matrix();
         this.scores.add(0);
         x = id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING + Constants.INACTIVE_MATRIX_Y;
         text = (TextObject) new TextObject(
@@ -55,6 +57,7 @@ public class Player extends GameObject {
                 Color.WHITE,
                 TextStyle.TextAlign.ALIGN_CENTER
         ).setPosition(Constants.ZERO_X + 140 + id * 250, Constants.ZERO_Y + 100);
+        clickMatrix.dealEmpty();
     }
 
     public void updateAndDrawScore(GameCanvas canvas, int score) {
@@ -81,6 +84,7 @@ public class Player extends GameObject {
         text.findBehavior(TextRendererBehavior.class).disable();
         activeText.findBehavior(TextRendererBehavior.class).enable();
         mat.updateAndDrawActive(canvas);
+        clickMatrix.updateAndDrawActive(canvas);
     }
 
     private void drawInactive(GameCanvas canvas) {
@@ -88,14 +92,15 @@ public class Player extends GameObject {
         activeText.findBehavior(TextRendererBehavior.class).disable();
         text.updateAndDraw(canvas);
         mat.updateAndDrawInactive(canvas, id);
+        clickMatrix.updateAndDrawActive(canvas);
     }
 
-    public void deal(int[] cards) {
+    public void deal(Card[] cards) {
         mat.deal(cards);
     }
 
     public boolean matrixMouseClicked() {
-        return mat.mouseClicked();
+        return clickMatrix.mouseClicked();
     }
 
     public Card matrixReplaceCard(Card replacement) {
@@ -107,7 +112,7 @@ public class Player extends GameObject {
     }
 
     public Vec2 getClickedIndex() {
-        return mat.getClicked();
+        return clickMatrix.getClicked();
     }
 
     public boolean matrixFlipCard() {
