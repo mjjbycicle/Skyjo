@@ -26,7 +26,6 @@ public class Matrix {
     }
 
     public boolean mouseClicked() {
-        if (!active) return false;
         for (Card[] i : matrix) {
             for (Card c : i) {
                 if (c.clicked()) {
@@ -79,7 +78,12 @@ public class Matrix {
         return false;
     }
 
-    public void updateAndDrawActive(GameCanvas canvas) {
+    public void updateAndDraw(GameCanvas canvas, boolean active, int index) {
+        if (active) updateAndDrawActive(canvas);
+        else updateAndDrawInactive(canvas, index);
+    }
+
+    private void updateAndDrawActive(GameCanvas canvas) {
         while (getRemovableCol() != -1) {
             int col = getRemovableCol();
             removeCol(col);
@@ -89,14 +93,16 @@ public class Matrix {
                 matrix[i][j].updateAndDrawActive(canvas, i, j, 0, 0);
             }
         }
+        active = true;
     }
 
-    public void updateAndDrawInactive(GameCanvas canvas, int index) {
+    private void updateAndDrawInactive(GameCanvas canvas, int index) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 matrix[i][j].updateAndDrawInactive(canvas, i, j, Constants.ZERO_X + 30 + index * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING, Constants.ZERO_Y + 80);
             }
         }
+        active = false;
     }
 
     public void removeCol(int col) {
@@ -115,8 +121,8 @@ public class Matrix {
         for (int col = 0; col < matrix[0].length; col++) {
             int start = matrix[0][col].getNum();
             boolean equal = true;
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[j][col].getNum() != start || matrix[j][col].isFaceDown()) {
+            for (Card[] cards : matrix) {
+                if (cards[col].getNum() != start || cards[col].isFaceDown()) {
                     equal = false;
                     break;
                 }

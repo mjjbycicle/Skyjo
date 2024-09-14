@@ -13,10 +13,10 @@ import java.util.Iterator;
 
 public class RoundEndState extends AbstractGameState {
     private AbstractGameState nextState;
-    private Game game;
+    private final Game game;
 
     private final ButtonObject startButton = (ButtonObject) new ButtonObject(
-            "start next round",
+            "continue",
             Styles.buttonFont.deriveFont(60f),
             Styles.buttonBGColor,
             Styles.buttonBorderColor,
@@ -37,14 +37,22 @@ public class RoundEndState extends AbstractGameState {
     @Override
     public void onMouseClick(MouseEvent me) {
         if (startButton.isHovered()) {
-            game.advanceRound();
-            AbstractGameState theNextState = new DealCardsState(game);
-            nextState = GameStateGroup.groupStates(
-                    new FadeOutScene(this),
-                    new FadeInScene(theNextState),
-                    theNextState,
-                    new TurnStartedState(game)
-            );
+            if (game.isGameFinished()) {
+                AbstractGameState theNextState = new GameEndedState(game);
+                nextState = GameStateGroup.groupStates(
+                        new FadeOutScene(this),
+                        new FadeInScene(theNextState),
+                        theNextState
+                );
+            } else {
+                game.advanceRound();
+                AbstractGameState theNextState = new DealCardsState(game);
+                nextState = GameStateGroup.groupStates(
+                        new FadeOutScene(this),
+                        new FadeInScene(theNextState),
+                        theNextState
+                );
+            }
         }
     }
 

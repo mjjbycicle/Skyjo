@@ -2,7 +2,6 @@ package app.states;
 
 import app.Constants;
 import app.Game;
-import app.objects.Card;
 import core.GameCanvas;
 import core.gameobjects.ButtonObject;
 import core.gameobjects.ImageObject;
@@ -18,7 +17,7 @@ import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 
 public class TurnStateDiscardedDrawnCard extends AbstractGameState {
-    private Game game;
+    private final Game game;
     private AbstractGameState nextState;
 
     private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
@@ -45,9 +44,7 @@ public class TurnStateDiscardedDrawnCard extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
-        System.out.println("discardedClicked");
         if (game.matrixClicked()) {
-            System.out.println("matClicked");
             if (game.matrixFlipCard())
                 nextState = new TurnFinishedState(game);
         }

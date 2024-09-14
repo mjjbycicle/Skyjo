@@ -10,7 +10,6 @@ import core.gameobjects.ImageObject;
 import core.input.MouseEvent;
 import core.math.Vec2;
 import core.states.AbstractGameState;
-import core.util.FontLoader;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ import java.util.Iterator;
 import static java.awt.Color.*;
 
 public class TurnStartedState extends AbstractGameState {
-    private Game game;
+    private final Game game;
     private AbstractGameState nextState;
 
     private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
@@ -50,7 +49,6 @@ public class TurnStartedState extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
-        System.out.println("startedClicked");
         if (game.drawDeckClicked()) {
             Card nextCard = game.drawDeckCard();
             nextState = new StartedToDrawnStateTransition(game, nextCard);

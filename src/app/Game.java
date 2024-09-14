@@ -10,17 +10,16 @@ import core.math.Vec2;
 import java.util.*;
 
 public class Game extends GameObject {
-    private List<Player> players;
+    private final List<Player> players;
     private Deck drawDeck, discardDeck;
     private int activePlayerIndex = 0;
-    private HashMap<Integer, Integer> scores = new HashMap<>();
+    private final HashMap<Integer, Integer> scores = new HashMap<>();
     private int finisherID = -1;
 
     public Game(List<Player> players, Deck drawDeck) {
         this.players = players;
         this.drawDeck = drawDeck;
         this.discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
-        players.get(activePlayerIndex).updateActive(true);
         for (Player player : players) {
             scores.put(player.getID(), 0);
         }
@@ -29,9 +28,6 @@ public class Game extends GameObject {
     public void advanceActivePlayer() {
         activePlayerIndex++;
         activePlayerIndex %= players.size();
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).updateActive(i == activePlayerIndex);
-        }
     }
 
     public void updateAndDrawScores(GameCanvas canvas) {
@@ -43,7 +39,7 @@ public class Game extends GameObject {
     @Override
     public void updateAndDraw(GameCanvas canvas) {
         for (Player player : players) {
-            player.updateAndDraw(canvas);
+            player.updateAndDraw(canvas, player.getID() == activePlayerIndex);
         }
         drawDeck.updateAndDraw(canvas);
         discardDeck.updateAndDraw(canvas);
@@ -113,6 +109,11 @@ public class Game extends GameObject {
     }
 
     public boolean isRoundFinished() {
+        return isLastRound()
+                && activePlayerIndex == getNumPlayers() - 1;
+    }
+
+    public boolean isLastRound() {
         for (Player player : players) {
             if (player.roundFinished()) {
                 finisherID = player.getID();
@@ -156,5 +157,21 @@ public class Game extends GameObject {
 
     public int getNumPlayers() {
         return players.size();
+    }
+
+    public List<Integer> getWinnerIDs() {
+        List<Integer> winners = new ArrayList<>();
+        winners.add(0);
+        for (int i = 1; i < getNumPlayers(); i++) {
+            int maxScore = scores.get(0);
+            int currScore = scores.get(i);
+            if (currScore < maxScore) {
+                winners.clear();
+                winners.add(i);
+            } else if (currScore == maxScore) {
+                winners.add(i);
+            }
+        }
+        return winners;
     }
 }

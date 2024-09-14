@@ -18,9 +18,9 @@ import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 
 public class TurnStateDrawnCard extends AbstractGameState {
-    private Game game;
+    private final Game game;
     private AbstractGameState nextState;
-    private Card drawnCard;
+    private final Card drawnCard;
 
     private final ImageObject bg = (ImageObject) new ImageObject("board.jpg").setSize(1920, 1080);
 
@@ -48,9 +48,7 @@ public class TurnStateDrawnCard extends AbstractGameState {
 
     @Override
     public void onMouseClick(MouseEvent me) {
-        System.out.println("drawnClicked");
         if (game.matrixClicked()) {
-            System.out.println("matClicked");
             Vec2 clickedIndex = game.getClickedIndex();
             Card thrown = game.matrixReplaceCard(drawnCard);
             thrown.setFaceDown(false);

@@ -8,35 +8,26 @@ import core.behaviors.TextRendererBehavior;
 import core.behaviors.TextStyle;
 import core.gameobjects.TextObject;
 import core.math.Vec2;
-import core.util.FontLoader;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends GameObject {
-    private Matrix mat;
-    private TextObject text;
-    private TextObject activeText;
-    private TextObject scoreText;
+    private final Matrix mat;
+    private final TextObject text;
+    private final TextObject activeText;
+    private final TextObject scoreText;
     private final String name;
     private final int id;
-    private int x;
-    private boolean active;
-    private List<Integer> scores = new ArrayList<>();
+    private final List<Integer> scores = new ArrayList<>();
     private int round = 0;
-
-    private enum Actions {
-        DISCARD,
-        REPLACE
-    }
 
     public Player(String name, int id) {
         this.name = name;
         this.id = id;
         this.mat = new Matrix();
         this.scores.add(0);
-        x = id * Constants.INACTIVE_MATRIX_WIDTH_WITH_PADDING + Constants.INACTIVE_MATRIX_Y;
         text = (TextObject) new TextObject(
                 name + ": " + scores.get(round),
                 Styles.textFont.deriveFont(40f),
@@ -63,31 +54,29 @@ public class Player extends GameObject {
         scoreText.updateAndDraw(canvas);
     }
 
-    public void updateAndDraw(GameCanvas canvas) {
+    public void updateAndDraw(GameCanvas canvas, boolean active) {
         scoreText.findBehavior(TextRendererBehavior.class).disable();
         scores.set(round, mat.getScore());
         text.findBehavior(TextRendererBehavior.class).setText(name + ": " + scores.get(round));
         activeText.findBehavior(TextRendererBehavior.class).setText(name + ": " + scores.get(round));
         if (active) {
-            drawActive(canvas);
+            updateActive();
         } else {
-            drawInactive(canvas);
+            updateInactive();
         }
         text.updateAndDraw(canvas);
         activeText.updateAndDraw(canvas);
+        mat.updateAndDraw(canvas, active, id);
     }
 
-    private void drawActive(GameCanvas canvas) {
+    private void updateActive() {
         text.findBehavior(TextRendererBehavior.class).disable();
         activeText.findBehavior(TextRendererBehavior.class).enable();
-        mat.updateAndDrawActive(canvas);
     }
 
-    private void drawInactive(GameCanvas canvas) {
+    private void updateInactive() {
         text.findBehavior(TextRendererBehavior.class).enable();
         activeText.findBehavior(TextRendererBehavior.class).disable();
-        text.updateAndDraw(canvas);
-        mat.updateAndDrawInactive(canvas, id);
     }
 
     public void deal(int[] cards) {
@@ -112,11 +101,6 @@ public class Player extends GameObject {
 
     public boolean matrixFlipCard() {
         return mat.flipCard();
-    }
-
-    public void updateActive(boolean b) {
-        active = b;
-        mat.active = b;
     }
 
     public void advanceRound() {
