@@ -20,6 +20,7 @@ public class Game extends GameObject {
         this.players = players;
         this.drawDeck = drawDeck;
         this.discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
+        discardDeck.push(drawDeck.drawCard());
         for (Player player : players) {
             scores.put(player.getID(), 0);
         }
@@ -105,6 +106,7 @@ public class Game extends GameObject {
         finisherID = -1;
         discardDeck = new Deck(false, Constants.DISCARD_DECK_X, Constants.DISCARD_DECK_Y);
         drawDeck = new Deck(true, Constants.DRAW_DECK_X, Constants.DRAW_DECK_Y);
+        discardDeck.push(drawDeck.drawCard());
         dealCards();
     }
 

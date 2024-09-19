@@ -23,6 +23,13 @@ public class Matrix {
                 matrix[2][i - 2 * matrix[0].length] = new Card(cards[i], true);
             }
         }
+        int a = (int)(Math.random() * 3);
+        int b = a + (int)(Math.random() * (3 - a) + 1);
+        int c = (int)(Math.random() * 2);
+        int d = c + (int)(Math.random() * (2 - c) + 1);
+        System.out.println(a + " " + b + " " + c + " " + d);
+        matrix[c][a].setFaceDown(false);
+        matrix[d][b].setFaceDown(false);
     }
 
     public boolean mouseClicked() {
